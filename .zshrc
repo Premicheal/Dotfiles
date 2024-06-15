@@ -2,15 +2,15 @@
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 # Start tmux automatically
-# if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-#   if [ -z "$SSH_TTY" ]; then
-#     # If not in an SSH session, start a new tmux session
-#     tmux attach -t default || tmux new -s default
-#   else
-#     # If in an SSH session, start tmux without attaching
-#     tmux new -s remote
-#   fi
-# fi
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+  if [ -z "$SSH_TTY" ]; then
+    # If not in an SSH session, start a new tmux session
+    tmux attach -t default || tmux new -s default
+  else
+    # If in an SSH session, start tmux without attaching
+    tmux new -s remote
+  fi
+fi
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -40,6 +40,9 @@ alias ls='ls --color'
 alias vim='nvim'
 alias c='clear'
 
+export XDG_CONFIG_HOME="$HOME/.config"
+export EDITOR="nvim"
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 export EDITOR='nvim'
 PATH="$PATH":"$HOME/.local/scripts/"
 alias py="python3"
@@ -48,6 +51,11 @@ alias cat="bat"
 alias cd="z"
 alias air="~/bin/air"
 alias ovpnpath="/Users/prasshan/Library/Application Support/OpenVPN Connect/profiles"
+# Alias xsel for pbcopy and pbpaste functionality
+alias pbcopy='xsel --clipboard --input'
+alias pbpaste='xsel --clipboard --output'
+alias svim='sudo -E nvim'
+
 # Add in Powerlevel10k
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 
@@ -79,7 +87,9 @@ bindkey -e
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey '^[w' kill-region
-
+bindkey  "^[[H"   beginning-of-line
+bindkey  "^[[F"   end-of-line
+bindkey  "^[[3~"  delete-char
 # History
 HISTSIZE=5000
 HISTFILE=~/.zsh_history
@@ -103,3 +113,6 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
+
+# Created by `pipx` on 2024-06-15 07:12:58
+export PATH="$PATH:/home/ps/.local/bin"
