@@ -74,8 +74,6 @@ zinit snippet OMZP::sudo
 # zinit snippet OMZP::kubectx
 zinit snippet OMZP::command-not-found
 
-# Load completions
-autoload -Uz compinit && compinit
 
 zinit cdreplay -q
 
@@ -110,6 +108,8 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
+# Load completions
+autoload -Uz compinit && compinit
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
