@@ -44,7 +44,8 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export EDITOR="nvim"
 export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 export EDITOR='nvim'
-PATH="$PATH":"$HOME/.local/scripts/"
+export PATH="$PATH":"/var/lib/snapd/snap/bin"
+export PATH="$PATH":"$HOME/.local/scripts/"
 alias py="python3"
 alias python="python3"
 alias cat="bat"
@@ -113,6 +114,10 @@ autoload -Uz compinit && compinit
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
+tmux-window-name() {
+	($TMUX_PLUGIN_MANAGER_PATH/tmux-window-name/scripts/rename_session_windows.py &)
+}
 
+add-zsh-hook chpwd tmux-window-name
 # Created by `pipx` on 2024-06-15 07:12:58
 export PATH="$PATH:/home/ps/.local/bin"
