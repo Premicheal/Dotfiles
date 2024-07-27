@@ -2,15 +2,15 @@
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 # Start tmux automatically
-if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-  if [ -z "$SSH_TTY" ]; then
-    # If not in an SSH session, start a new tmux session
-    tmux attach -t default || tmux new -s default
-  else
-    # If in an SSH session, start tmux without attaching
-    tmux new -s remote
-  fi
-fi
+# if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+#   if [ -z "$SSH_TTY" ]; then
+#     # If not in an SSH session, start a new tmux session
+#     tmux attach -t default
+#   else
+#     # If in an SSH session, start tmux without attaching
+#     tmux new -s remote
+#   fi
+# fi
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -53,11 +53,15 @@ alias cd="z"
 alias air="~/bin/air"
 alias ovpnpath="/Users/prasshan/Library/Application Support/OpenVPN Connect/profiles"
 # Alias xsel for pbcopy and pbpaste functionality
-alias pbcopy='xsel --clipboard --input'
-alias pbpaste='xsel --clipboard --output'
+if [[ "$(uname)" != "Darwin" ]]; then
+  alias pbcopy='xsel --clipboard --input'
+  alias pbpaste='xsel --clipboard --output'
+fi
 alias svim='sudo -E nvim'
 
 # Add in Powerlevel10k
+zinit ice as"completion"
+zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # Add in zsh plugins
