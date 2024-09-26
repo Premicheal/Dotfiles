@@ -3,7 +3,7 @@ import = [
 ]
 
 [font]
-size = 10.0
+size = 14.0
 
 [font.bold]
 family = "JetBrainsMono Nerd Font"

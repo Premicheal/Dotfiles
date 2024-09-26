@@ -37,9 +37,9 @@ git_current_branch() {
 
 # Aliases
 alias ls='ls --color'
-alias vim='nvim'
 alias c='clear'
 
+export FZF_COMPLETION_TRIGGER='~~'
 export XDG_CONFIG_HOME="$HOME/.config"
 export EDITOR="nvim"
 export XDG_RUNTIME_DIR="/run/user/$(id -u)"
@@ -49,6 +49,7 @@ export PATH="$PATH":"$HOME/.local/scripts/"
 alias py="python3"
 alias python="python3"
 alias cat="bat"
+alias fp="fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'"
 alias cd="z"
 alias air="~/bin/air"
 alias ovpnpath="/Users/prasshan/Library/Application Support/OpenVPN Connect/profiles"
@@ -113,15 +114,24 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
-# Load completions
-autoload -Uz compinit && compinit
-# Shell integrations
-eval "$(fzf --zsh)"
-eval "$(zoxide init zsh)"
 tmux-window-name() {
 	($TMUX_PLUGIN_MANAGER_PATH/tmux-window-name/scripts/rename_session_windows.py &)
 }
 
 add-zsh-hook chpwd tmux-window-name
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
+    *)            fzf "$@" ;;
+  esac
+}
+# Load completions
+autoload -Uz compinit && compinit
+# Shell integrations
+eval "$(fzf --zsh)"
+eval "$(zoxide init zsh)"
 # Created by `pipx` on 2024-06-15 07:12:58
 export PATH="$PATH:/home/ps/.local/bin"
