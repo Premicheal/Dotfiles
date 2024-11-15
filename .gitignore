@@ -1,4 +1,5 @@
 *
+!.gitmux.conf
 !.config/alacritty/alacritty.toml
 !.config/kitty/kitty.conf
 !.gitignore
