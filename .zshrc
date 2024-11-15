@@ -75,9 +75,9 @@ zinit light Aloxaf/fzf-tab
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
 # zinit snippet OMZP::archlinux
-# zinit snippet OMZP::aws
-# zinit snippet OMZP::kubectl
-# zinit snippet OMZP::kubectx
+zinit snippet OMZP::aws
+zinit snippet OMZP::kubectl
+zinit snippet OMZP::kubectx
 zinit snippet OMZP::command-not-found
 
 
@@ -135,3 +135,10 @@ eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 # Created by `pipx` on 2024-06-15 07:12:58
 export PATH="$PATH:/home/ps/.local/bin"
+
+# bun completions
+[ -s "/Users/prasshan/.bun/_bun" ] && source "/Users/prasshan/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

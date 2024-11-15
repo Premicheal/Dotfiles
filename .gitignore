@@ -1,0 +1,8 @@
+*
+!.config/alacritty/alacritty.toml
+!.config/kitty/kitty.conf
+!.gitignore
+!.local/scripts/tmux-sessionizer
+!.p10k.zsh
+!.tmux.conf
+!.zshrc
