@@ -139,6 +139,14 @@ export PATH="$PATH:/home/ps/.local/bin"
 # bun completions
 [ -s "/Users/prasshan/.bun/_bun" ] && source "/Users/prasshan/.bun/_bun"
 
+if [ -n "$TMUX" ]; then
+    export TERM="tmux-256color"
+else
+    export TERM="xterm-256color"
+fi
+
+# Add this with any of the above options
+alias tmux="tmux -2"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
