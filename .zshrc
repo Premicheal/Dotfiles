@@ -2,15 +2,10 @@
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 # Start tmux automatically
-# if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-#   if [ -z "$SSH_TTY" ]; then
-#     # If not in an SSH session, start a new tmux session
-#     tmux attach -t default
-#   else
-#     # If in an SSH session, start tmux without attaching
-#     tmux new -s remote
-#   fi
-# fi
+if [ -z "$TMUX" ]
+then
+    tmux
+fi
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -29,11 +24,33 @@ if [ ! -d "$ZINIT_HOME" ]; then
    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
 
+# Load completions
+autoload -Uz compinit && compinit
 # Source/Load zinit
 source "${ZINIT_HOME}/zinit.zsh"
 git_current_branch() {
   git rev-parse --abbrev-ref HEAD
 }
+
+# Arch
+# Pacman
+alias p='sudo pacman'
+alias pss='pacman -Ss'        # Search
+alias pi='sudo pacman -S'     # Install
+alias pr='sudo pacman -R'     # Remove
+alias pu='sudo pacman -Syu'   # Update
+alias pc='sudo pacman -Sc'    # Clean cache
+alias po='pacman -Qtd'        # List orphans
+
+# AUR 
+alias ys='yay -Ss'           # Search AUR
+alias yi='yay -S'            # Install from AUR
+alias yu='yay -Syu'          # Update including AUR
+
+# System
+alias cf='cd ~/.config'
+alias sys='sudo systemctl'
+alias sysu='sudo systemctl --user'
 
 # Aliases
 alias ls='ls --color'
@@ -95,7 +112,7 @@ bindkey  "^[[H"   beginning-of-line
 bindkey  "^[[F"   end-of-line
 bindkey  "^[[3~"  delete-char
 # History
-HISTSIZE=5000
+HISTSIZE=50000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
@@ -118,7 +135,9 @@ tmux-window-name() {
 	($TMUX_PLUGIN_MANAGER_PATH/tmux-window-name/scripts/rename_session_windows.py &)
 }
 
-add-zsh-hook chpwd tmux-window-name
+# if [ -n "$TMUX" ]; then
+#     add-zsh-hook chpwd tmux-window-name
+# fi
 _fzf_comprun() {
   local command=$1
   shift
@@ -128,11 +147,10 @@ _fzf_comprun() {
     *)            fzf "$@" ;;
   esac
 }
-# Load completions
-autoload -Uz compinit && compinit
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
+eval "$(/home/ps/anaconda3/bin/conda shell.zsh hook)"
 # Created by `pipx` on 2024-06-15 07:12:58
 export PATH="$PATH:/home/ps/.local/bin"
 
@@ -150,3 +168,4 @@ alias tmux="tmux -2"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH=/usr/bin:$PATH
